@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>{{user}} Xoclock</title>
+
+    <link rel="shortcut icon" href="/favico.ico" />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/index.js"></script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="white-{{white}}" ng-controller="mainController">
+    <br>
+    <div ng-include="'clock.html'">
+    </div>
+    </br>
+    <div ng-include="'controlls.html'">
+    </div>
+    </br>
+    <div ng-include="'schedule.html'">
+    </div>
+    <br>
+</body>
+</html>

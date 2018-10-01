@@ -1,0 +1,33 @@
+###########################
+# xbindkeys configuration #
+###########################
+
+##
+## Xoclock
+## 
+## left right pointleft pointright leftpit rightpit
+## time start nopoint approve resume technical-timeout
+##
+
+"/bin/bash /home/x/xoclock/key-input.sh left"
+    F1
+"/bin/bash /home/x/xoclock/key-input.sh right"
+    F9
+"/bin/bash /home/x/xoclock/key-input.sh leftpit"
+    F2
+"/bin/bash /home/x/xoclock/key-input.sh rightpit"
+    F8
+"/bin/bash /home/x/xoclock/key-input.sh leftpit"
+    F3
+"/bin/bash /home/x/xoclock/key-input.sh rightpit"
+    F4
+
+
+"/bin/bash /home/x/xoclock/key-input.sh approve"
+    F12
+"/bin/bash /home/x/xoclock/key-input.sh technical-timeout"
+    F11
+"/bin/bash /home/x/xoclock/key-input.sh start"
+    Hangul_Hanja
+
+

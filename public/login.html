@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>{{user}} Xoclock CLOCK</title>
+
+    <link rel="shortcut icon" href="/favico.ico" />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/index.js"></script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="white-{{white}}" ng-controller="mainController">
+    <div id="login">
+        <div class="container"  style="width:200px">
+            <div class="input-group">
+                <input ng-if="!isadmin && user==='' && !viewOnly" ng-model="$root.passpin" type="password"  maxlength="10" placeholder="pin" class="form-control">
+                <span class="input-group-btn">
+                <button ng-if="!isadmin && user==='' && !viewOnly" type="button" class="btn btn-primary" ng-click="login()">Login</button>
+                </span>
+            </div>
+            <a ng-if="isadmin || user !== ''" type="button" class="btn btn-primary" href="admin.html">{{isadmin ? 'admin' : ''}} {{user}}</a>
+        </div>
+    </div>
+</body>
+</html>

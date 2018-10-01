@@ -1,0 +1,32 @@
+{
+  "name": "xoclock",
+  "version": "1.0.0",
+  "description": "Xball paintball field or tournament controller clock",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LaKing/xoclock.git"
+  },
+  "keywords": [
+    "paintball"
+  ],
+  "author": "István Király",
+  "license": "Artistic-2.0",
+  "bugs": {
+    "url": "https://github.com/LaKing/xoclock/issues"
+  },
+  "homepage": "https://github.com/LaKing/xoclock#readme",
+  "dependencies": {
+    "@google-cloud/text-to-speech": "^0.1.0",
+    "angular": "^1.5.0",
+    "bootstrap": "^3.3.6",
+    "express": "^4.13.4",
+    "http-auth": "*",
+    "socket.io": "^1.4.5",
+    "socket.io-client": "^2.0.3"
+  }
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>{{user}} Xoclock</title>
+
+    <link rel="shortcut icon" href="/favico.ico" />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/index.js"></script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="white-{{white}}" ng-controller="mainController">
+    <div ng-if="!viewOnly" class="row text-center">
+            <div ng-if="!$root.isadmin && $root.user!=='' && $root.user!=='visitor'">
+            {{user}}
+                    <button id="ati" type="button" class="btn-block btn-xxl btn-primary" ng-disabled="block || !xo.match_live || xo.game_live || (xo.grs[xo.gr].l.team === user && xo.grs[xo.gr].l.timeouts < 1) || (xo.grs[xo.gr].r.team === user && xo.grs[xo.gr].r.timeouts < 1)" ng-click="buttonTeam('timeout-team',$root.passpin)"><span>Timeout</span></button>
+                    <br>
+                    <button id="ato" type="button" class="btn-block btn-xxl btn-danger" ng-disabled="block || !xo.match_live || !xo.game_live || (xo.grs[xo.gr].l.team !== user && xo.grs[xo.gr].r.team !== user)" ng-click="buttonTeam('towel-team',$root.passpin)"><span>Towel</span></button>
+                    <br>
+                    <button id="ano" type="button" class="btn-block btn-xxl btn-warning" ng-disabled="block || !xo.match_live || xo.game_live  || (xo.grs[xo.gr].l.team !== user && xo.grs[xo.gr].r.team !== user)" ng-click="buttonTeam('noshow-team',$root.passpin)"><span>No show</span></button>
+	    </div>
+            <div ng-if="$root.isadmin">
+                <div class="btn">
+                    <button type="button" class="btn btn-primary" ng-disabled="block || xo.game_live || xo.mach_live" ng-click="buttonAdmin('start')">Start</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="block || !xo.game_live || xo.left_team_time || xo.right_team_time" ng-click="buttonAdmin('time')" ng-keypress="buttonAdmin('time')">Time</button>
+                    <button type="button" class="btn btn-primary" ng-click="buttonAdmin('technical-timeout')" ng-keypress="buttonAdmin('technical-timeout')">Technical-timeout</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="block || !xo.game_live" ng-click="buttonAdmin('nopoint')">No point</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="block || !xo.game_live || (!xo.left_team_time && !xo.right_team_time)" ng-click="buttonAdmin('approve')">Approve point</button>
+                    <button type="button" class="btn btn-primary" ng-disabled="block || !xo.game_live" ng-click="buttonAdmin('resume')">Resume</button>
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-6" align="right">
+                        <div class="panel">
+                            <div class="panel-heading" ng-class="left_pit_style">
+                                Left pit: {{ xo.grs[xo.gr].l.team }}
+                            </div>
+                            <div class="btn-group">
+                                <button id="apo" type="button" class="btn btn-default" ng-disabled="block || !xo.game_live" ng-click="buttonTeam('point','l')"><span>Point</span></button>
+                                <button id="ati" type="button" class="btn btn-default" ng-disabled="block || !xo.match_live || xo.game_live || (xo.grs[xo.gr].l.timeouts < 1)" ng-click="buttonTeam('timeout','l')"><span>Timeout</span></button>
+                                <button id="ato" type="button" class="btn btn-default" ng-disabled="block || !xo.match_live || !xo.game_live" ng-click="buttonTeam('towel','l')"><span>Towel</span></button>
+                                <button id="ano" type="button" class="btn btn-default" ng-disabled="block || !xo.match_live || xo.game_live" ng-click="buttonTeam('noshow','l')"><span>No show</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6" align="left">
+                        <div class="panel">
+                            <div class="panel-heading" ng-class="right_pit_style">
+                                Right pit: {{ xo.grs[xo.gr].r.team }}
+                            </div>
+                            <div class="btn-group">
+                                <button id="bpo" type="button" class="btn btn-default" ng-disabled="block || !xo.game_live" ng-click="buttonTeam('point','r')"><span>Point</span></button>
+                                <button id="bti" type="button" class="btn btn-default" ng-disabled="block || !xo.match_live || xo.game_live || (xo.grs[xo.gr].r.timeouts < 1) " ng-click="buttonTeam('timeout','r')"><span>Timeout</span></button>
+                                <button id="bto" type="button" class="btn btn-default" ng-disabled="block || !xo.match_live || !xo.game_live" ng-click="buttonTeam('towel','r')"><span>Towel</span></button>
+                                <button id="bno" type="button" class="btn btn-default" ng-disabled="block || !xo.match_live || xo.game_live" ng-click="buttonTeam('noshow','r')"><span>No show</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6" align="right">
+                        <div class="panel">
+                            <div class="panel-heading" ng-class="left_field_style">
+                                Left on field: {{ sch ? xo.grs[xo.gr].r.team : xo.grs[xo.gr].l.team }}
+                            </div>
+                            <div class="btn-group">
+                                <button id="buzzer" type="button" class="btn btn-default" ng-disabled="block || !xo.game_live  || xo.left_team_time || xo.right_team_time" ng-click="buttonTeam('buzzer','l')"><span class="glyphicon glyphicon-cd"></span> Buzzer</button>
+                                <button id="minor" type="button" class="btn btn-default" ng-disabled="block || !xo.game_live  || xo.right_team_time" ng-click="buttonTeam('minor','l')"><span>Minor</span></button>
+                                <button id="major" type="button" class="btn btn-default" ng-disabled="block || !xo.game_live  || xo.right_team_time" ng-click="buttonTeam('major','l')"><span>Major</span></button>
+                                <button id="gross" type="button" class="btn btn-default" ng-disabled="block || !xo.game_live  || xo.right_team_time" ng-click="buttonTeam('gross','l')"><span>Gross</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6" align="left">
+                        <div class="panel">
+                            <div class="panel-heading" ng-class="right_field_style">
+                                Right on field: {{ sch ? xo.grs[xo.gr].l.team : xo.grs[xo.gr].r.team }}
+                            </div>
+                            <div class="btn-group">
+                                <button id="buzzer" type="button" class="btn btn-default" ng-disabled="block || !xo.game_live  || xo.left_team_time || xo.right_team_time" ng-click="buttonTeam('buzzer','r')"><span class="glyphicon glyphicon-cd"></span> Buzzer</button>
+                                <button id="minor" type="button" class="btn btn-default" ng-disabled="block || !xo.game_live  || xo.left_team_time" ng-click="buttonTeam('minor','r')"><span>Minor</span></button>
+                                <button id="major" type="button" class="btn btn-default" ng-disabled="block || !xo.game_live  || xo.left_team_time" ng-click="buttonTeam('major','r')"><span>Major</span></button>
+                                <button id="gross" type="button" class="btn btn-default" ng-disabled="block || !xo.game_live  || xo.left_team_time" ng-click="buttonTeam('gross','r')"><span>Gross</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</body>
+</html>

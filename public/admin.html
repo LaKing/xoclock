@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>{{user}} Xoclock</title>
+
+    <link rel="shortcut icon" href="/favico.ico" />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/index.js"></script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="white-{{white}}" ng-controller="mainController" ng-init="$root.page='clock-controlls.html'">
+        <div ng-include="'login.html'"></div>
+            <div class="container">
+        	<div class="btn-group">
+                <a ng-click="$root.page='clock-controlls.html'" class="btn btn-info"><span class="glyphicon glyphicon-time"></span> Clock</a>
+
+                <a ng-if="isadmin" ng-click="$root.page='games.html'" class="btn btn-info"><span class="glyphicon glyphicon-knight"></span> Games</a>
+                <a ng-click="$root.page='schedule.html'" class="btn btn-info"><span class="glyphicon glyphicon-pushpin"></span> Schedule</a>
+
+        	<a ng-click="$root.page='settings.html'" class="btn btn-info"><span class="glyphicon glyphicon-cog"></span> Settings</a>
+        	<a ng-if="isadmin" ng-click="$root.page='scoreboard.html'" class="btn btn-info"><span class="glyphicon glyphicon-list-alt"></span> Scoreboard</a>
+
+        	<a href="wpbo-rules.pdf" target="_blank" class="btn btn-info"><span class="glyphicon glyphicon-info-sign"></span> Rules</a>
+        	<a href="xoclock.pdf" target="_blank" class="btn btn-info"><span class="glyphicon glyphicon-question-sign"></span> Help</a>
+
+		<a ng-if="isadmin" ng-disabled="$root.beep===0" ng-click="browser_sound('start')" class="btn btn-info"><span class="glyphicon glyphicon-bullhorn"></span> start</a>
+		<a ng-if="isadmin" ng-disabled="$root.beep===0" ng-click="browser_sound('stop')" class="btn btn-info"><span class="glyphicon glyphicon-bullhorn"></span> stop</a>
+
+        	<a ng-if="isadmin" ng-click="blindClick()" class="btn btn-info"><span class="glyphicon glyphicon-hand-up"></span> {{blindFunction()}}</a>
+
+	    	<a ng-if="isadmin" ng-click="sound('start')" class="btn btn-info"><span class="glyphicon glyphicon-bullhorn"></span></a>	
+	    	<a ng-if="isadmin" ng-click="sound('stop')" class="btn btn-info"><span class="glyphicon glyphicon-bullhorn"></span>	</a>
+
+
+        	</div>
+            </div>
+
+        <br>
+        <div ng-if="$root.page!=''">
+            <div ng-include="$root.page"></div>
+        </div>
+        <br><br><br><br><br><br><br><br>
+        <div id="subtitles" ng-click="$root.subtitles=''">
+            <h2>{{subtitles}}</h2>
+        </div>
+
+</body>
+
+</html>

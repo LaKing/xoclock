@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>{{user}} Xoclock</title>
+
+    <link rel="shortcut icon" href="/favico.ico" />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/index.js"></script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="white-{{white}}" ng-controller="mainController">
+
+    <div class="container">
+            <h2>Team Index</h2> 
+            <br>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Team name" ng-model="newteam" ng-disabled="block || xo.match_live || xo.game_live">
+                <span class="input-group-btn"><button type="button" class="btn btn-primary" ng-disabled="block || xo.match_live || xo.game_live || !newteam" ng-click="teamIndex('add',newteam);">Add</button>
+                </span>
+            </div>
+            <br>
+                <span ng-repeat="t in index">
+                    <button ng-disabled="block || xo.match_live || xo.game_live" ng-click="teamIndex('remove', t.team)" type="button" class="btn btn-primary btn-xs">-</button>
+                    <button ng-click="alert(t.team + ' pin:' + t.pin)" type="button" class="btn btn-primary btn-xs">{{t.team}}</button><br>
+                </span>
+    </div>
+
+
+    <div class="container">
+	    <h2>Schedule editor</h2>
+	    <br>
+            <button type="button" class="btn btn-primary" ng-disabled="block || xo.match_live || xo.game_live" ng-click="teamIndex('clear', '')">Clear</button>
+	    <br>
+            <h3>Add game</h3>
+                <div>
+                    <p>First group, Left pit - Right pit</p>
+                    <ul class="nav nav-pills">
+                        <li class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="leftpit" data-toggle="dropdown">{{index[pit.a].team}} <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="pitsystem">
+                                <li ng-repeat="i in index" role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="pit.a=$index">{{i.team}}</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="rightpit" data-toggle="dropdown">{{index[pit.b].team}} <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="pitsystem">
+                                <li ng-repeat="i in index" role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="pit.b=$index">{{i.team}}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                </br>
+                <div>
+                    <p>Second Group, Left pit - Right pit</p>
+                    <ul class="nav nav-pills">
+                        <li class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="leftpit" data-toggle="dropdown">{{index[pit.c].team}} <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="pitsystem">
+                                <li ng-repeat="i in index" role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="pit.c=$index">{{i.team}}</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="rightpit" data-toggle="dropdown">{{index[pit.d].team}} <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="pitsystem">
+                                <li ng-repeat="i in index" role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="pit.d=$index">{{i.team}}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                </br>
+                <button type="button" class="btn btn-primary" ng-disabled="!checkPit()" ng-click="applyPit()">Add as game {{xo.groups.length + 1 }}</button>
+                <br>
+
+            <h2>Set game from schedule ({{xo.game_group+1}}/{{xo.groups.length}})</h2> 
+            <br>
+            <div>
+                    <ul class="nav nav-pills">
+                        <li class="dropdown">
+                            <button ng-disabled="block || xo.match_live || xo.game_live" class="btn btn-default dropdown-toggle" type="button" id="setgame" data-toggle="dropdown">
+                            {{xo.game_group+1}}: {{index[xo.groups[xo.game_group].a].team}} - {{index[xo.groups[xo.game_group].b].team}} | {{index[xo.groups[xo.game_group].c].team}} - {{index[xo.groups[xo.game_group].d].team}}
+                             <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="pitsystem">
+                                <li ng-repeat="g in xo.groups" role="presentation">
+                            	    <a href="#" role="menuitem" tabindex="-1" ng-click="applyGame($index)">
+            {{$index+1}}: {{index[g.a].team}} - {{index[g.b].team}} | {{index[g.c].team}} - {{index[g.d].team}}
+            </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                <br>
+            <button type="button" class="btn btn-primary" ng-disabled="block || xo.match_live || xo.game_live || xo.game_group == xo.groups.length" ng-click="applyGame(xo.game_group + 1)">Set next game</button>
+            </div>
+            <br>
+            <button type="button" class="btn btn-primary" ng-disabled="block || xo.match_live || xo.game_live" ng-click="buttonAdmin('start-game')">Start game</button>
+            <button type="button" class="btn btn-primary" ng-disabled="block || xo.game_live" ng-click="buttonAdmin('stop-game')">Stop game</button>
+
+
+
+    </div>
+</div>
+
+
+
+</body>
+</html>

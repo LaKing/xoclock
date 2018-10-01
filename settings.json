@@ -1,0 +1,17 @@
+{
+    "title": "HUPS-R2",
+    "admin_pin": "3250",
+    "keys_pass": "asdf1122",
+    "format": {
+        "teamsize": "3 on 3",
+        "condition": "mercy at 3",
+        "gametime": "8 minutes",
+        "rules": "M500 format x-ball",
+        "breaktime": "3 minutes",
+        "overtime": "3 minutes",
+        "timeouts": 1
+    },
+    "proxy": "xoclock.d250.hu",
+    "proxy_pass": "asdf1234",
+    "beep": true
+}

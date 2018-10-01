@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>{{user}} Xoclock SCHEDULE</title>
+
+    <link rel="shortcut icon" href="/favico.ico" />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/index.js"></script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="white-{{white}}">
+
+<div class="container text-center" ng-controller="mainController">
+<div class="container text-center">
+
+    <div ng-repeat="g in xo.groups">
+                ---- {{$index +1 }} ----
+                <div class="container {{ index[g.a].team === user || index[g.b].team === user || index[g.c].team === user || index[g.d].team === user ? '' : 'les'}} {{ xo.game_group === $index ? 'NOW' : ''}}">
+        	     <div class="row {{ index[g.a].team ===user || index[g.b].team === user ? 'bold' : ''}}">
+        	     {{index[g.a].team}} - {{index[g.b].team}} {{ g.a_points || g.b_points ? g.a_points+'-'+g.b_points : ''}}
+        	     </div>
+        	     <div class="row {{ index[g.c].team ===user || index[g.d].team === user ? 'bold' : ''}}">
+        	     {{index[g.c].team}} - {{index[g.d].team}} {{ g.c_points || g.d_points ? g.c_points+'-'+g.d_points : ''}}
+        	     </div>
+                </div>
+    </div>
+</div>
+</body>
+</html>

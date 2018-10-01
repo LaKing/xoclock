@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>{{user}} Xoclock CLOCK</title>
+
+    <link rel="shortcut icon" href="/favico.ico" />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/index.js"></script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="white-{{white}}" ng-controller="mainController">
+<br>
+        <div id="clock" class="container text-center" ng-click="$root.white=!$root.white">
+                {{ grstatus }}
+                <div id="grs" class="container">
+                    <div class="row">
+                        <div class="col-xs-6" align="right" ng-class="left_pit_style">
+                            <h2 >{{ xo.grs[xo.gr].l.team }}</h2>
+                        </div>
+                        <div class="col-xs-6" align="left"  ng-class="right_pit_style">
+                            <h2>{{ xo.grs[xo.gr].r.team }}</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6" align="right" ng-class="left_pit_style">
+                            <h1>{{ xo.grs[xo.gr].l.points }}</h1>
+                        </div>
+                        <div class="col-xs-6" align="left" ng-class="right_pit_style">
+                            <h1> {{ xo.grs[xo.gr].r.points }}</h1>
+                        </div>
+                    </div>
+                    <h2>{{ status }}{{ sch ? ' X-side, ' : ' '}}{{ clock_delay }}</h2>
+                </div>
+                <div id="break-time" class="panel">
+                    Break-time
+                    <h1>  {{ breaktime }} </h1>
+                </div>
+                <div id="game-time" class="panel game_live-{{game_live}}">
+                    Game-time
+                    <h1>  {{ gametime }} </h1>
+                </div>
+        </div>
+</body>
+</html>

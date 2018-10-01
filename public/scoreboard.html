@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>{{user}} Xoclock SCHEDULE</title>
+
+    <link rel="shortcut icon" href="/favico.ico" />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/index.js"></script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="white-{{white}}" ng-controller="mainController">
+    <div class="container">
+
+        <div ng-repeat="g in xo.groups">
+                {{$index +1 }}  {{ xo.game_group === $index ? 'NOW' : '...'}} 
+                <br>
+                {{index[g.a].team}} - {{index[g.b].team}}
+            	<div ng-if="isadmin" class="btn-group">
+            	    <button ng-click="edit_points('+',$index,'a')" type="button" class="btn btn-primary btn-xs">+</button>
+            	    <button ng-click="edit_points('-',$index,'a')" type="button" class="btn btn-primary btn-xs">-</button>
+            	</div>
+            	     {{g.a_points}}-{{g.b_points}}
+            	<div ng-if="isadmin" class="btn-group">
+            	    <button ng-click="edit_points('+',$index,'b')" type="button" class="btn btn-primary btn-xs">+</button>
+            	    <button ng-click="edit_points('-',$index,'b')" type="button" class="btn btn-primary btn-xs">-</button>
+                </div>
+                <br>
+            <div ng-if="index[g.c].team && index[g.d].team">
+                 {{index[g.c].team}} - {{index[g.d].team}}
+            	<div ng-if="isadmin" class="btn-group">
+            	    <button ng-click="edit_points('+',$index,'c')" type="button" class="btn btn-primary btn-xs">+</button>
+            	    <button ng-click="edit_points('-',$index,'c')" type="button" class="btn btn-primary btn-xs">-</button>
+            	</div>
+            	     {{g.c_points}}-{{g.d_points}}
+            	<div ng-if="isadmin" class="btn-group">
+            	    <button ng-click="edit_points('+',$index,'d')" type="button" class="btn btn-primary btn-xs">+</button>
+            	    <button ng-click="edit_points('-',$index,'d')" type="button" class="btn btn-primary btn-xs">-</button>
+                </div>
+                <br>
+            </div>
+            <br>
+        </div>
+
+    </div>
+<div class="container">
+    <div ng-repeat="t in index">
+	{{t.team}}<br>
+	<b ng-repeat="g in xo.groups">{{index[g.a].team === t.team && g.a_points > g.b_points ? '|' : ''}}{{index[g.b].team === t.team && g.b_points > g.a_points ? '|' : ''}}{{index[g.c].team === t.team && g.c_points > g.d_points ? '|' : ''}}{{index[g.d].team === t.team && g.d_points > g.c_points ? '|' : ''}}</b>
+	<br>
+    <div>
+</div>
+</body>
+</html>

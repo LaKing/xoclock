@@ -1,0 +1,25 @@
+        RANDFILE               = /tmp/ssl_random
+
+        [ req ]
+        prompt                 = no
+        string_mask            = utf8only
+        default_bits           = 2048
+        default_keyfile        = keyfile.pem
+        distinguished_name     = req_distinguished_name
+
+        req_extensions         = v3_req
+        
+        output_password        = no_password
+
+        [ req_distinguished_name ]
+        CN                     = xoclock.d250.hu
+        emailAddress           = webmaster@d250.hu
+
+        [ v3_req ]
+        basicConstraints = critical,CA:FALSE
+        keyUsage = keyEncipherment, dataEncipherment
+        extendedKeyUsage = serverAuth
+        subjectAltName = @alt_names
+        [alt_names]
+        DNS.1 = xoclock.d250.hu
+        DNS.2 = *.xoclock.d250.hu

@@ -1,0 +1,80 @@
+body {
+    font-family: monospace;
+    overflow-x: hidden;
+    color: #000;
+}
+
+h1 {
+    font-size: 8.0em;
+    font-family: Helvetica, Arial, Sans-Serif;
+    ;
+}
+
+body.white-false {
+    color: #fff;
+    background-color: #000
+}
+
+body.white-false .panel {
+    color: #fff;
+    background-color: #000
+}
+
+body.white-false #game-time.game_live-true {
+    background-color: #500
+}
+
+body.white-true #game-time.game_live-true {
+    background-color: #F33
+}
+
+
+#subtitles {
+    bottom: 20px;
+    left: 20px;
+    float: left;
+    position: fixed;
+    z-index: 11;
+    background-color: rgba(155, 155, 155, 0.7);
+}
+
+#login {
+    top: 40px;
+    right: 10px;
+    float: right;
+    position: fixed;
+    z-index: 10;
+}
+
+#clock {
+    padding: 0;
+    padding-left: 0;
+    padding-right:0;
+}
+
+#grs {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.sel {
+    color: #337ab7;
+}
+
+
+.les {
+    color: #337ab7;
+}
+
+
+.btn-xxl {
+    height: 60px;
+}
+
+.NOW {
+    color: red !important;
+}
+
+.bold {
+    font-weight: bold;
+}

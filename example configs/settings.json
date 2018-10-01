@@ -1,0 +1,13 @@
+{
+    "admin_pin": "0250",
+    "keys_pass": "asdf1234",
+    "format": {
+        "teamsize": "5 on 5",
+        "condition": "mercy at 4 points lead",
+        "gametime": "10 minutes",
+        "rules": "m-500 format x-ball",
+        "breaktime": "2 minutes",
+        "overtime": "3 minutes",
+        "timeouts": 1
+    }
+}

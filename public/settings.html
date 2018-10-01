@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>{{user}} Xoclock</title>
+
+    <link rel="shortcut icon" href="/favico.ico" />
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+    <script src="/js/angular.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+
+    <script src="/index.js"></script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+
+<body class="white-{{white}}" ng-controller="mainController">
+        <div class="container">
+            <div class="container">
+	    {{settings.title}} | Gametime: {{gametime}}
+            <div ng-if="isadmin" class="btn-group">
+        	<button ng-click="edit_time('g+')" type="button" class="btn btn-primary btn-xs">+</button>
+        	<button ng-click="edit_time('g-')" type="button" class="btn btn-primary btn-xs">-</button>
+            </div>
+            Breaktime: {{breaktime}}
+            <div ng-if="isadmin" class="btn-group">
+                <button ng-click="edit_time('b+')" type="button" class="btn btn-primary btn-xs">+</button>
+                <button ng-click="edit_time('b-')" type="button" class="btn btn-primary btn-xs">-</button>
+    	    </div>
+    	    Lastkey: {{lastkey}}
+            </div>
+            <div class="container">
+                <h2>Game format</h2>
+                <p>The game format defines how the game is played, how the clock behaves, and what is announced.</p>
+                <p>You can override the game format specification for new games here.</p>
+                <ul class="nav nav-pills">
+                    <li class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="teamsize" data-toggle="dropdown">{{settings.format.teamsize}} <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="teamsize">
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.teamsize='1 on 1'">1 on 1</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.teamsize='2 on 2'">2 on 2</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.teamsize='3 on 3'">3 on 3</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.teamsize='4 on 4'">4 on 4</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.teamsize='5 on 5'">5 on 5</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.teamsize='6 on 6'">6 on 6</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.teamsize='7 on 7'">7 on 7</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.teamsize='8 on 8'">8 on 8</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.teamsize='9 on 9'">9 on 9</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.teamsize='10 on 10'">10 on 10</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="condition" data-toggle="dropdown">{{settings.format.condition}} <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="condition">
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='Sudden death'">Sudden death</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='race to 2'">race to 2</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='race to 3'">race to 3</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='race to 4'">race to 4</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='race to 5'">race to 5</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='race to 6'">race to 6</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='race to 7'">race to 7</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='race to 8'">race to 8</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='mercy at 2 points'">mercy at 2 points</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='mercy at 3 points'">mercy at 3 points</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='mercy at 4 points'">mercy at 4 points</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='mercy at 5 points'">mercy at 5 points</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='mercy at 6 points'">mercy at 6 points</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='mercy at 7 points'">mercy at 7 points</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='mercy at 8 points'">mercy at 8 points</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.condition='unlimited'">unlimited</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="gametime" data-toggle="dropdown">{{settings.format.gametime}} <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="gametime">
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='2 minutes'">2 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='3 minutes'">3 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='4 minutes'">4 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='5 minutes'">5 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='6 minutes'">6 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='7 minutes'">7 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='8 minutes'">8 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='9 minutes'">9 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='10 minutes'">10 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='12 minutes'">12 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='15 minutes'">15 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='20 minutes'">20 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='30 minutes'">30 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.gametime='60 minutes'">60 minutes</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="rules" data-toggle="dropdown">{{settings.format.rules}} <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="rules">
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.rules='M500 format x-ball'">M500 format X-ball</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.rules='M800 format x-ball'">M800 format X-ball</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.rules='Professional x-ball'">Professional X-ball</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.rules='training mode'">Training mode</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                </br>
+                <p>break-time - overtime</p>
+                <ul class="nav nav-pills">
+                    <li class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="breaktime" data-toggle="dropdown">{{settings.format.breaktime}} <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="breaktime">
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.breaktime='1 minute'">1 minute</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.breaktime='2 minutes'">2 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.breaktime='3 minutes'">3 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.breaktime='4 minutes'">4 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.breaktime='5 minutes'">5 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.breaktime='6 minutes'">6 minutes</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="overtime" data-toggle="dropdown">{{settings.format.overtime}} <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="overtime">
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.overtime='0'">None</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.overtime='2 minutes'">2 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.overtime='3 minutes'">3 minutes</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.format.overtime='5 minutes'">5 minutes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                </br>
+                <button ng-if="isadmin" type="button" class="btn btn-primary" ng-disabled="block || xo.match_live || xo.game_live" ng-click="applyFormat()">Apply game format</button>
+            </div>
+            </br>
+
+            <div class="container">
+                <h2>Volume</h2>
+                <p>Beep - Announce</p>
+                <ul class="nav nav-pills">
+                    <li class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="beep" data-toggle="dropdown">{{$root.beep*100}} % volume <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="music">
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.beep = 0">off</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.beep = 0.2">20%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.beep = 0.3">30%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.beep = 0.4">40%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.beep = 0.5">50%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.beep = 0.6">60%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.beep = 0.7">70%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.beep = 0.8">80%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.beep = 0.9">90%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.beep = 1">100%</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="speech" data-toggle="dropdown">{{$root.speech*100}} % volume <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="music">
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.speech = 0">off</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.speech = 0.2">20%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.speech = 0.3">30%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.speech = 0.4">40%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.speech = 0.5">50%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.speech = 0.6">60%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.speech = 0.7">70%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.speech = 0.8">80%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.speech = 0.9">90%</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="$root.speech = 1">100%</a></li>
+                        </ul>
+                    </li>
+            	</ul>
+
+            </div>
+            <div ng-if="isadmin" class="container">
+                <h2>Music</h2>
+                <p>Volume - Controlls</p>
+                <ul class="nav nav-pills">
+                    <li class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="music" data-toggle="dropdown">{{settings.volume.music}} % volume <span class="caret"></span></button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="music">
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.volume.music=0; applyVolume();">off</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.volume.music=10; applyVolume();">10 %</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.volume.music=20; applyVolume();">20 %</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.volume.music=30; applyVolume();">30 %</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.volume.music=40; applyVolume();">40 %</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.volume.music=50; applyVolume();">50 %</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.volume.music=60; applyVolume();">60 %</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.volume.music=70; applyVolume();">70 %</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.volume.music=80; applyVolume();">80 %</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.volume.music=90; applyVolume();">90 %</a></li>
+                            <li role="presentation"><a href="#" role="menuitem" tabindex="-1" ng-click="settings.volume.music=100; applyVolume();">100%</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                    <div class="btn-group">
+                    <button ng-click="applyMusic('pause')" class="btn btn-default" type="button" id="pause">Pause</button>
+                    <button ng-click="applyMusic('prev')" class="btn btn-default" type="button" id="prev">Prev</button>
+                    <button ng-click="applyMusic('next')" class="btn btn-default" type="button" id="next">Next</button>
+                    </div>
+                    </li>
+            	</ul>
+            	
+            </div>
+        </div>
+</body>
+</html>
