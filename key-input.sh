@@ -1,6 +1,6 @@
 #!/bin/bash
 
-notify-send "Keypress: $1 $(date +%H:%M:%S)"
+#notify-send "Keypress: $1 $(date +%H:%M:%S)"
 
 #cd "/home/$USER/xoclock"
 mkdir -p logs
