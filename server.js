@@ -2,8 +2,9 @@
 
 console.log("Starting Xoclock");
 
-// you may attach additional arguments to aplay
-const aplay = "aplay -D sysdefault:CARD=PCH"
+// you may attach additional arguments to aplay, check aplay -L
+const aplay = "aplay -D sysdefault"
+//const aplay = "aplay "
 
 // load libs
 var http = require("http");
@@ -114,6 +115,15 @@ function speech_downloads() {
     for (var j in speechex) {
        download(TEAMS, j, speechex[j]);
     }
+
+    for (var k=1; k<=60; k++ ) {
+       download(AUDIO, "gametime_" + k + '_seconds.wav', 'gametime ' + k + 'seconds');
+    };
+    
+    for (var k=60; k<=600; k++ ) {
+       if (k<120) download(AUDIO, "gametime_" + k + '_seconds.wav', 'gametime 1 minute' + (k%60) + 'seconds');
+       else download(AUDIO, "gametime_" + k + '_seconds.wav', 'gametime ' + Math.floor(k/60) + ' minutes' + (k%60) + 'seconds');
+    };
 }
 
 
@@ -640,7 +650,7 @@ function ac(string) {
 var speech_process;
 
 function speak(string) {
-    console.log("speak string", string);
+    console.log("speak string:", string);
 
     //speech_process.close();
     var parts = string.split(",");
@@ -650,9 +660,10 @@ function speak(string) {
        var file = filename(parts[i]);
        if (speeches[file] !== undefined) args.push("audio/" + file);
        else if (speechex[file] !== undefined) args.push("teams/" + file);
+       else args.push("audio/" + file);
     }
 
-    if (args.length < 1) return console.log(args, "Nothing to say?");
+    if (args.length < 1) return console.log(parts, args, "Nothing to say?");
     console.log("speak args", args);
 
     speech_process = spawn('play', args);
@@ -997,12 +1008,18 @@ function main(){
 		screen();
 	    };
 
+	    if (b === 15) {
+		if( xo.grs[xo.gr].g < 600) s("gametime " + xo.grs[xo.gr].g  + " seconds");
+		else s('10 seconds');
+	    }
+
+            //if (b === 12) s('10 seconds');
+
             if (b === 11) {
                 xo.status = "COUNTDOWN!";
                 screen();
                 block=12;
             }
-            if (b === 12) s('10 seconds');
             if (b === 14) music_off();
 
             if (b === 31) {
@@ -1159,7 +1176,9 @@ function on_start() {
                 //    //block = 5;
                 //    music_off();
                 //} else {
-                    s('field is live');
+
+                    //s('field is live');
+
                     xo.grs[xo.gr].b = 16;
                     //block = 16;
                 //}
@@ -1221,7 +1240,7 @@ dsp("clock running");
 function on_resume() {
 
             if (block > 0) return;
-            block = 2;
+            return block = 2;
 
             if (xo.match_live) return;
             if (!xo.game_live) return;

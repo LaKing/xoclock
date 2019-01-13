@@ -4,10 +4,10 @@
     "keys_pass": "asdf1122",
     "format": {
         "teamsize": "3 on 3",
-        "condition": "mercy at 3",
-        "gametime": "8 minutes",
+        "condition": "mercy at 4",
+        "gametime": "10 minutes",
         "rules": "M500 format x-ball",
-        "breaktime": "3 minutes",
+        "breaktime": "5 minutes",
         "overtime": "3 minutes",
         "timeouts": 1
     },
