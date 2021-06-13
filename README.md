@@ -1,7 +1,7 @@
 Xball paintball field and tournament controller clock
 =====================================================
 
-# See the [demo](https://xoclock.d250.hu/admin.html)
+<!-- # See the [demo](https://xoclock.d250.hu/admin.html) -->
 Announcements now via google cloud speech synthesis.
 Frontend speach with chrome browser.
 
