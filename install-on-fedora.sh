@@ -18,7 +18,7 @@ echo "Started the xoclock-installer."
 
 source /etc/os-release
 
-if [[ $NAME == Fedora ]]
+if [[ $NAME == "Fedora Linux" ]]
 then
     echo "Starting the installer"
 else
