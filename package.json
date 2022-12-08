@@ -24,7 +24,7 @@
     "@google-cloud/text-to-speech": "^0.1.0",
     "angular": "^1.7.4",
     "bootstrap": "^3.3.6",
-    "express": "^4.13.4",
+    "express": "^4.17.3",
     "http-auth": "*",
     "socket.io": "^1.4.5",
     "socket.io-client": "^2.1.1"
